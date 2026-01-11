@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>UPI Payment</title>
+<style>
+body{font-family:Arial;text-align:center;padding:20px;}
+input,button{padding:10px;font-size:16px;margin:7px;width:90%;}
+img{margin-top:20px;width:260px;}
+.box{border:1px solid #ccc;padding:20px;border-radius:10px;}
+</style>
+</head>
+<body>
+
+<h2>Add FUND</h2>
+
+<label>Enter Amount (Min ₹100)</label>
+<input type="number" id="amount" placeholder="Enter Amount">
+
+<button onclick="generateQR()">Generate QR</button>
+
+<div id="qrBox"></div>
+
+<div id="paymentForm" style="display:none;">
+  <h3>Payment Done? Submit Details</h3>
+
+  <input type="text" id="utr" placeholder="Enter UTR Number">
+  
+  <input type="file" id="ss" accept="image/*">
+
+  <button onclick="submitPayment()">Submit</button>
+</div>
+
+<script>
+
+function generateQR(){
+    let amount = document.getElementById("amount").value;
+    if(amount < 100){
+        alert("Minimum amount is ₹100");
+        return;
+    }
+
+    let upiID = "kishwar07.wallet@phonepe";
+    let upiURL = `upi://pay?pa=${upiID}&pn=Payment&am=${amount}&cu=INR`;
+    let qrURL = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(upiURL)}`;
+
+    document.getElementById("qrBox").innerHTML = `
+        <div class='box'>
+           <h3>Pay ₹${amount}</h3>
+           <img src="${qrURL}">
+           <p><b>UPI:</b> ${upiID}</p>
+        </div>
+    `;
+
+    document.getElementById("paymentForm").style.display = "block";
+}
+
+function submitPayment(){
+    let utr = document.getElementById("utr").value;
+    let amount = document.getElementById("amount").value;
+    let ss = document.getElementById("ss").files[0];
+
+    if(utr.length < 8){
+        alert("Invalid UTR number!");
+        return;
+    }
+
+    if(!ss){
+        alert("Upload screenshot!");
+        return;
+    }
+
+    alert("Your payment is being verified.\nCoins will be added shortly.");
+}
+
+</script>
+
+</body>
+</html>
