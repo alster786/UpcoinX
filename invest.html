@@ -1,0 +1,70 @@
+<script>
+let wallet = Number(localStorage.getItem("wallet")) || 0;
+let history = JSON.parse(localStorage.getItem("investHistory")) || [];
+
+function investNow(){
+    let amt = Number(document.getElementById("amount").value);
+    let profit = 0;
+    let total = 0;
+
+    if(amt < 100){
+        alert("Minimum investment ₹100");
+        return;
+    }
+
+    if(wallet < amt){
+        alert("Insufficient balance");
+        return;
+    }
+
+    // FIXED PROFIT LOGIC
+    if(amt === 100){
+        total = 250;
+    } 
+    else if(amt === 300){
+        total = 700;
+    }
+    else if(amt === 1000){
+        total = 1800;
+    }
+    else{
+        alert("Invalid investment amount");
+        return;
+    }
+
+    profit = total - amt;
+
+    wallet = wallet - amt + total;
+    localStorage.setItem("wallet", wallet);
+
+    history.push({
+        amount: amt,
+        profit: profit,
+        total: total,
+        time: new Date().toLocaleString()
+    });
+
+    localStorage.setItem("investHistory", JSON.stringify(history));
+
+    document.getElementById("inv").innerText = amt;
+    document.getElementById("profit").innerText = profit;
+    document.getElementById("total").innerText = total;
+    document.getElementById("resultBox").style.display = "block";
+
+    renderHistory();
+}
+
+function renderHistory(){
+    let box = document.getElementById("history");
+    box.innerHTML = "<h3>Investment History</h3>";
+
+    history.forEach(h=>{
+        box.innerHTML += `
+            <div>
+                ₹${h.amount} → ₹${h.total}<br>
+                <small>${h.time}</small>
+            </div>`;
+    });
+}
+renderHistory();
+</script>
