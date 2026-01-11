@@ -1,77 +1,123 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>UPI Payment</title>
-<style>
-body{font-family:Arial;text-align:center;padding:20px;}
-input,button{padding:10px;font-size:16px;margin:7px;width:90%;}
-img{margin-top:20px;width:260px;}
-.box{border:1px solid #ccc;padding:20px;border-radius:10px;}
-</style>
+  <title>Add Fund</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+
+  <style>
+    body{
+      font-family: Arial, sans-serif;
+      background:#0f172a;
+      color:#fff;
+      padding:20px;
+    }
+    .card{
+      max-width:420px;
+      margin:auto;
+      background:#111827;
+      padding:20px;
+      border-radius:10px;
+      box-shadow:0 0 10px #000;
+    }
+    h2{
+      text-align:center;
+      margin-bottom:15px;
+    }
+    input,button{
+      width:100%;
+      padding:12px;
+      margin-top:10px;
+      border-radius:6px;
+      border:none;
+      font-size:16px;
+    }
+    input{
+      background:#020617;
+      color:white;
+    }
+    button{
+      background:#22c55e;
+      font-weight:bold;
+      cursor:pointer;
+    }
+    .qr{
+      margin-top:15px;
+      display:flex;
+      justify-content:center;
+    }
+    .disclaimer{
+      font-size:11px;
+      color:#9ca3af;
+      text-align:center;
+      margin-top:15px;
+    }
+  </style>
 </head>
+
 <body>
 
-<h2>Add FUND</h2>
+<div class="card">
+  <h2>Add Fund</h2>
 
-<label>Enter Amount (Min ₹100)</label>
-<input type="number" id="amount" placeholder="Enter Amount">
+  <input type="number" id="amount" placeholder="Enter Amount (Min ₹100)" min="100">
 
-<button onclick="generateQR()">Generate QR</button>
+  <button onclick="generateQR()">Generate QR</button>
 
-<div id="qrBox"></div>
+  <div class="qr" id="qrcode"></div>
 
-<div id="paymentForm" style="display:none;">
-  <h3>Payment Done? Submit Details</h3>
+  <input type="file" accept="image/*">
 
-  <input type="text" id="utr" placeholder="Enter UTR Number">
-  
-  <input type="file" id="ss" accept="image/*">
+  <input type="text" id="utr" placeholder="Enter UTR / Reference Number">
 
-  <button onclick="submitPayment()">Submit</button>
+  <button onclick="submitFund()">Submit</button>
+
+  <div class="disclaimer">
+    This page is for learning & interface testing purposes only.
+  </div>
 </div>
 
 <script>
-
 function generateQR(){
-    let amount = document.getElementById("amount").value;
-    if(amount < 100){
-        alert("Minimum amount is ₹100");
-        return;
-    }
+  let amt = Number(document.getElementById("amount").value);
 
-    let upiID = "kishwar07.wallet@phonepe";
-    let upiURL = `upi://pay?pa=${upiID}&pn=Payment&am=${amount}&cu=INR`;
-    let qrURL = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(upiURL)}`;
+  if(amt < 100){
+    alert("Minimum amount is ₹100");
+    return;
+  }
 
-    document.getElementById("qrBox").innerHTML = `
-        <div class='box'>
-           <h3>Pay ₹${amount}</h3>
-           <img src="${qrURL}">
-           <p><b>UPI:</b> ${upiID}</p>
-        </div>
-    `;
+  document.getElementById("qrcode").innerHTML = "";
 
-    document.getElementById("paymentForm").style.display = "block";
+  let qrData = "UPCOINX|AMOUNT:" + amt;
+
+  new QRCode(document.getElementById("qrcode"), {
+    text: qrData,
+    width: 200,
+    height: 200
+  });
 }
 
-function submitPayment(){
-    let utr = document.getElementById("utr").value;
-    let amount = document.getElementById("amount").value;
-    let ss = document.getElementById("ss").files[0];
+function submitFund(){
+  let amt = document.getElementById("amount").value;
+  let utr = document.getElementById("utr").value;
 
-    if(utr.length < 8){
-        alert("Invalid UTR number!");
-        return;
-    }
+  if(amt < 100){
+    alert("Minimum amount is ₹100");
+    return;
+  }
 
-    if(!ss){
-        alert("Upload screenshot!");
-        return;
-    }
+  if(utr.length < 6){
+    alert("Please enter valid UTR number");
+    return;
+  }
 
-    alert("Your payment is being verified.\nCoins will be added shortly.");
+  alert(
+    "Add Fund Submitted\n\n" +
+    "Amount: ₹" + amt +
+    "\nUTR: " + utr +
+    "\nStatus: Pending"
+  );
 }
-
 </script>
 
 </body>
