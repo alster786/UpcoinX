@@ -1,122 +1,146 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Add Fund</title>
+  <title>Add Fund – UpcoinX</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 
   <style>
     body{
-      font-family: Arial, sans-serif;
-      background:#0f172a;
-      color:#fff;
-      padding:20px;
+      margin:0;
+      font-family:Arial, sans-serif;
+      background:#0b1c3d;
+      color:white;
     }
+
+    .nav{
+      background:#123a7a;
+      padding:12px;
+      display:flex;
+      justify-content:space-around;
+      font-size:14px;
+      font-weight:bold;
+    }
+    .nav a{
+      color:white;
+      text-decoration:none;
+    }
+
+    .container{
+      padding:15px;
+    }
+
     .card{
-      max-width:420px;
-      margin:auto;
-      background:#111827;
-      padding:20px;
+      background:#143b72;
+      padding:15px;
       border-radius:10px;
-      box-shadow:0 0 10px #000;
-    }
-    h2{
-      text-align:center;
       margin-bottom:15px;
     }
-    input,button{
+
+    input{
       width:100%;
       padding:12px;
-      margin-top:10px;
       border-radius:6px;
       border:none;
       font-size:16px;
+      margin-top:8px;
     }
-    input{
-      background:#020617;
-      color:white;
-    }
+
     button{
-      background:#22c55e;
+      width:100%;
+      padding:12px;
+      margin-top:12px;
+      border:none;
+      border-radius:6px;
+      font-size:16px;
       font-weight:bold;
       cursor:pointer;
+      background:#22c55e;
+      color:#000;
     }
-    .qr{
-      margin-top:15px;
-      display:flex;
-      justify-content:center;
-    }
-    .disclaimer{
-      font-size:11px;
-      color:#9ca3af;
+
+    .qr-box{
       text-align:center;
+      display:none;
       margin-top:15px;
+    }
+
+    .qr-box img{
+      width:220px;
+      border-radius:10px;
+      background:white;
+      padding:10px;
+    }
+
+    .upi{
+      margin-top:10px;
+      font-size:14px;
+      word-break:break-all;
+    }
+
+    .error{
+      color:#ffb4b4;
+      margin-top:8px;
+      font-size:14px;
     }
   </style>
 </head>
 
 <body>
 
-<div class="card">
-  <h2>Add Fund</h2>
+<div class="nav">
+  <a href="dashboard.html">Home</a>
+  <a href="add-fund.html">Add Fund</a>
+  <a href="withdraw.html">Withdraw</a>
+  <a href="invest.html">Invest</a>
+  <a href="support.html">Support</a>
+</div>
 
-  <input type="number" id="amount" placeholder="Enter Amount (Min ₹100)" min="100">
+<div class="container">
 
-  <button onclick="generateQR()">Generate QR</button>
+  <div class="card">
+    <h3>Add Fund</h3>
 
-  <div class="qr" id="qrcode"></div>
+    <label>Enter Amount (₹)</label>
+    <input type="number" id="amt" placeholder="Minimum 100">
 
-  <input type="file" accept="image/*">
+    <div id="err" class="error"></div>
 
-  <input type="text" id="utr" placeholder="Enter UTR / Reference Number">
-
-  <button onclick="submitFund()">Submit</button>
-
-  <div class="disclaimer">
-    This page is for learning & interface testing purposes only.
+    <button onclick="generate()">Proceed</button>
   </div>
+
+  <div class="card qr-box" id="qrBox">
+    <h3>Scan & Pay</h3>
+
+    <!-- QR IMAGE -->
+    <img src="upi-qr.png" alt="UPI QR">
+
+    <div class="upi">
+      UPI ID:<br>
+      <b>kishwar07.wallet@phonepe</b>
+    </div>
+
+    <p style="margin-top:10px;font-size:14px;">
+      Amount: ₹ <span id="showAmt"></span>
+    </p>
+
+  </div>
+
 </div>
 
 <script>
-function generateQR(){
-  let amt = Number(document.getElementById("amount").value);
+function generate(){
+  let amt = document.getElementById("amt").value;
+  let err = document.getElementById("err");
 
-  if(amt < 100){
-    alert("Minimum amount is ₹100");
+  if(amt === "" || amt < 100){
+    err.innerHTML = "Minimum amount is ₹100";
+    document.getElementById("qrBox").style.display = "none";
     return;
   }
 
-  document.getElementById("qrcode").innerHTML = "";
-
-  let qrData = "UPCOINX|AMOUNT:" + amt;
-
-  new QRCode(document.getElementById("qrcode"), {
-    text: qrData,
-    width: 200,
-    height: 200
-  });
-}
-
-function submitFund(){
-  let amt = document.getElementById("amount").value;
-  let utr = document.getElementById("utr").value;
-
-  if(amt < 100){
-    alert("Minimum amount is ₹100");
-    return;
-  }
-
-  if(utr.length < 6){
-    alert("Please enter valid UTR number");
-    return;
-  }
-
-  alert(
-    "Add Fund Submitted\n\n" +
-    "Amount: ₹" + amt +
-    "\nUTR: " + utr +
-    "\nStatus: Pending"
-  );
+  err.innerHTML = "";
+  document.getElementById("showAmt").innerText = amt;
+  document.getElementById("qrBox").style.display = "block";
 }
 </script>
 
