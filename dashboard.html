@@ -1,82 +1,102 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>UPCOINX Dashboard</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UpcoinX Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:#0b122d;
-  color:white;
-}
-.header{
-  background:#141f45;
-  padding:15px;
-  text-align:center;
-  font-size:20px;
-}
-.menu{
-  display:flex;
-  justify-content:space-around;
-  background:#1b2a63;
-  padding:10px 0;
-}
-.menu a{
-  color:white;
-  text-decoration:none;
-  font-size:14px;
-}
-.box{
-  margin:15px;
-  background:#141f45;
-  padding:15px;
-  border-radius:8px;
-}
-.btn{
-  display:block;
-  margin-top:10px;
-  padding:12px;
-  background:#28a745;
-  color:white;
-  text-align:center;
-  text-decoration:none;
-  border-radius:6px;
-}
-.logout{
-  background:#dc3545;
-}
-</style>
+  <style>
+    body{
+      margin:0;
+      font-family:Arial, sans-serif;
+      background:#0b1c3d;
+      color:white;
+    }
+
+    /* TOP NAV */
+    .nav{
+      background:#123a7a;
+      padding:12px;
+      display:flex;
+      justify-content:space-around;
+      font-size:14px;
+      font-weight:bold;
+    }
+    .nav a{
+      color:white;
+      text-decoration:none;
+    }
+
+    .container{
+      padding:15px;
+    }
+
+    .card{
+      background:#143b72;
+      padding:15px;
+      border-radius:8px;
+      margin-bottom:15px;
+    }
+
+    .btn{
+      display:block;
+      width:100%;
+      padding:12px;
+      margin-top:10px;
+      border:none;
+      border-radius:6px;
+      font-size:15px;
+      font-weight:bold;
+      cursor:pointer;
+    }
+
+    .green{background:#22c55e;}
+    .blue{background:#3b82f6;}
+    .orange{background:#f59e0b;}
+    .red{background:#ef4444;}
+
+  </style>
 </head>
 
 <body>
 
-<div class="header">
-  UPCOINX DASHBOARD
+<!-- TOP MENU -->
+<div class="nav">
+  <a href="dashboard.html">Home</a>
+  <a href="add-fund.html">Add Fund</a>
+  <a href="withdraw.html">Withdraw</a>
+  <a href="invest.html">Invest</a>
+  <a href="support.html">Support</a>
 </div>
 
-<div class="menu">
-  <a href="/UpcoinX/dashboard.html">Home</a>
-  <a href="/UpcoinX/withdrawal.html">Withdraw</a>
-  <a href="/UpcoinX/support.html">Support</a>
+<div class="container">
+
+  <div class="card">
+    <h3>Welcome 👋</h3>
+    <p>You are logged in successfully.</p>
+  </div>
+
+  <div class="card">
+    <h3>Wallet Balance</h3>
+    <h2>₹ <span id="bal">0</span></h2>
+
+    <button class="btn green" onclick="go('add-fund.html')">Add Fund</button>
+    <button class="btn blue" onclick="go('withdraw.html')">Withdraw</button>
+    <button class="btn orange" onclick="go('invest.html')">Invest</button>
+    <button class="btn red" onclick="logout()">Logout</button>
+  </div>
+
 </div>
 
-<div class="box">
-  <h3>Welcome 👋</h3>
-  <p>You are logged in successfully.</p>
-</div>
+<script>
+function go(page){
+  window.location.href = page;
+}
 
-<div class="box">
-  <h3>Wallet Balance</h3>
-  <p><b>INR:</b> 0</p>
-  <a class="btn" href="/UpcoinX/withdrawal.html">Withdraw INR</a>
-</div>
-
-<div class="box">
-  <a class="btn logout" href="/UpcoinX/index.html">Logout</a>
-</div>
+function logout(){
+  localStorage.clear();
+  window.location.href = "index.html";
+}
+</script>
 
 </body>
 </html>
