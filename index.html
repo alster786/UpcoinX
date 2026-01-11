@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UpcoinX Login</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#0b122d;
+  color:white;
+}
+.box{
+  max-width:360px;
+  margin:90px auto;
+  background:#141f45;
+  padding:25px;
+  border-radius:10px;
+  box-shadow:0 0 15px rgba(0,0,0,0.4);
+}
+h2{
+  text-align:center;
+  margin-bottom:20px;
+}
+input{
+  width:100%;
+  padding:12px;
+  margin-top:12px;
+  border:none;
+  border-radius:6px;
+  font-size:15px;
+}
+button{
+  width:100%;
+  padding:12px;
+  margin-top:15px;
+  background:#28a745;
+  border:none;
+  border-radius:6px;
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+}
+button:hover{
+  background:#218838;
+}
+p{
+  text-align:center;
+  margin-top:12px;
+}
+a{
+  color:#4ea3ff;
+  text-decoration:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+  <h2>UpcoinX Login</h2>
+
+  <input id="user" placeholder="Username">
+  <input id="pass" type="password" placeholder="Password">
+
+  <button onclick="login()">LOGIN</button>
+
+  <p>
+    New user? <a href="#" onclick="signup()">Create Account</a>
+  </p>
+</div>
+
+<script>
+function signup(){
+  if(user.value==="" || pass.value===""){
+    alert("Fill all fields");
+    return;
+  }
+  localStorage.setItem("u",user.value);
+  localStorage.setItem("p",pass.value);
+  alert("Account created successfully");
+}
+
+function login(){
+  if(user.value===localStorage.getItem("u") &&
+     pass.value===localStorage.getItem("p")){
+    window.location.href="dashboard.html";
+  }else{
+    alert("Invalid login details");
+  }
+}
+</script>
+
+</body>
+</html>
