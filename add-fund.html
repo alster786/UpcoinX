@@ -1,146 +1,157 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Add Fund – UpcoinX</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Add Fund</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body{
-      margin:0;
-      font-family:Arial, sans-serif;
-      background:#0b1c3d;
-      color:white;
-    }
-
-    .nav{
-      background:#123a7a;
-      padding:12px;
-      display:flex;
-      justify-content:space-around;
-      font-size:14px;
-      font-weight:bold;
-    }
-    .nav a{
-      color:white;
-      text-decoration:none;
-    }
-
-    .container{
-      padding:15px;
-    }
-
-    .card{
-      background:#143b72;
-      padding:15px;
-      border-radius:10px;
-      margin-bottom:15px;
-    }
-
-    input{
-      width:100%;
-      padding:12px;
-      border-radius:6px;
-      border:none;
-      font-size:16px;
-      margin-top:8px;
-    }
-
-    button{
-      width:100%;
-      padding:12px;
-      margin-top:12px;
-      border:none;
-      border-radius:6px;
-      font-size:16px;
-      font-weight:bold;
-      cursor:pointer;
-      background:#22c55e;
-      color:#000;
-    }
-
-    .qr-box{
-      text-align:center;
-      display:none;
-      margin-top:15px;
-    }
-
-    .qr-box img{
-      width:220px;
-      border-radius:10px;
-      background:white;
-      padding:10px;
-    }
-
-    .upi{
-      margin-top:10px;
-      font-size:14px;
-      word-break:break-all;
-    }
-
-    .error{
-      color:#ffb4b4;
-      margin-top:8px;
-      font-size:14px;
-    }
-  </style>
+<style>
+body{
+    margin:0;
+    background:#0b1f3a;
+    font-family:Arial;
+    color:#fff;
+}
+.card{
+    max-width:420px;
+    margin:20px auto;
+    background:#123c72;
+    padding:20px;
+    border-radius:12px;
+}
+input, button{
+    width:100%;
+    padding:12px;
+    font-size:16px;
+    border-radius:8px;
+    border:none;
+    margin-top:10px;
+}
+button{
+    background:#22c55e;
+    color:#000;
+    font-weight:bold;
+}
+.qr-box{
+    display:none;
+    margin-top:20px;
+    text-align:center;
+}
+.qr-box img{
+    width:240px;
+    background:#fff;
+    padding:10px;
+    border-radius:12px;
+}
+.upload-box{
+    display:none;
+    margin-top:20px;
+}
+.upload-box img{
+    width:100%;
+    margin-top:10px;
+    border-radius:10px;
+}
+.submit-btn{
+    background:#3b82f6;
+    color:#fff;
+    margin-top:15px;
+}
+.success{
+    display:none;
+    background:#16a34a;
+    padding:12px;
+    border-radius:8px;
+    margin-top:15px;
+    text-align:center;
+}
+</style>
 </head>
 
 <body>
 
-<div class="nav">
-  <a href="dashboard.html">Home</a>
-  <a href="add-fund.html">Add Fund</a>
-  <a href="withdraw.html">Withdraw</a>
-  <a href="invest.html">Invest</a>
-  <a href="support.html">Support</a>
-</div>
-
-<div class="container">
-
-  <div class="card">
-    <h3>Add Fund</h3>
+<div class="card">
+    <h2>Add Fund</h2>
 
     <label>Enter Amount (₹)</label>
-    <input type="number" id="amt" placeholder="Minimum 100">
+    <input type="number" id="amount" placeholder="Minimum ₹100">
 
-    <div id="err" class="error"></div>
+    <button onclick="generateQR()">Proceed</button>
 
-    <button onclick="generate()">Proceed</button>
-  </div>
+    <!-- QR SECTION -->
+    <div class="qr-box" id="qrBox">
+        <h3>Scan & Pay</h3>
 
-  <div class="card qr-box" id="qrBox">
-    <h3>Scan & Pay</h3>
+        <img id="qrImage">
 
-    <!-- QR IMAGE -->
-    <img src="upi-qr.png" alt="UPI QR">
-
-    <div class="upi">
-      UPI ID:<br>
-      <b>kishwar07.wallet@phonepe</b>
+        <p><b>UPI ID</b><br>kishwar07.wallet@phonepe</p>
+        <p><b>Amount:</b> ₹ <span id="showAmount"></span></p>
     </div>
 
-    <p style="margin-top:10px;font-size:14px;">
-      Amount: ₹ <span id="showAmt"></span>
-    </p>
+    <!-- UPLOAD SECTION -->
+    <div class="upload-box" id="uploadBox">
+        <h3>Submit Payment Details</h3>
 
-  </div>
+        <input type="text" id="utr" placeholder="Enter UTR Number">
 
+        <input type="file" accept="image/*" onchange="previewImage(event)">
+
+        <img id="preview">
+
+        <button class="submit-btn" onclick="submitPayment()">Submit</button>
+    </div>
+
+    <div class="success" id="successMsg">
+        Payment submitted successfully.<br>
+        Verification in progress.
+    </div>
 </div>
 
 <script>
-function generate(){
-  let amt = document.getElementById("amt").value;
-  let err = document.getElementById("err");
+function generateQR(){
+    let amount = document.getElementById("amount").value;
 
-  if(amt === "" || amt < 100){
-    err.innerHTML = "Minimum amount is ₹100";
-    document.getElementById("qrBox").style.display = "none";
-    return;
-  }
+    if(amount < 100){
+        alert("Minimum amount is ₹100");
+        return;
+    }
 
-  err.innerHTML = "";
-  document.getElementById("showAmt").innerText = amt;
-  document.getElementById("qrBox").style.display = "block";
+    let upiID = "kishwar07.wallet@phonepe";
+    let name  = "UpcoinX";
+
+    let upiURL =
+        `upi://pay?pa=${upiID}&pn=${name}&am=${amount}&cu=INR`;
+
+    let qrURL =
+        "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data="
+        + encodeURIComponent(upiURL);
+
+    document.getElementById("qrImage").src = qrURL;
+    document.getElementById("showAmount").innerText = amount;
+
+    document.getElementById("qrBox").style.display = "block";
+    document.getElementById("uploadBox").style.display = "block";
+}
+
+function previewImage(e){
+    let reader = new FileReader();
+    reader.onload = function(){
+        document.getElementById("preview").src = reader.result;
+    }
+    reader.readAsDataURL(e.target.files[0]);
+}
+
+function submitPayment(){
+    let utr = document.getElementById("utr").value;
+
+    if(utr.length < 6){
+        alert("Please enter valid UTR");
+        return;
+    }
+
+    localStorage.setItem("lastUTR", utr);
+
+    document.getElementById("successMsg").style.display = "block";
 }
 </script>
 
