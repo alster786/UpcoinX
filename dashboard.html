@@ -1,60 +1,64 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>UpcoinX Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>UpcoinX Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <style>
-    body{
-      margin:0;
-      font-family:Arial, sans-serif;
-      background:#0b1c3d;
-      color:white;
-    }
+<style>
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#0b1c3d;
+  color:white;
+}
 
-    /* TOP NAV */
-    .nav{
-      background:#123a7a;
-      padding:12px;
-      display:flex;
-      justify-content:space-around;
-      font-size:14px;
-      font-weight:bold;
-    }
-    .nav a{
-      color:white;
-      text-decoration:none;
-    }
+/* TOP NAV */
+.nav{
+  background:#122a7a;
+  padding:12px;
+  display:flex;
+  justify-content:space-around;
+  font-size:14px;
+  font-weight:bold;
+}
+.nav a{
+  color:white;
+  text-decoration:none;
+}
 
-    .container{
-      padding:15px;
-    }
+/* CONTAINER */
+.container{
+  padding:15px;
+}
 
-    .card{
-      background:#143b72;
-      padding:15px;
-      border-radius:8px;
-      margin-bottom:15px;
-    }
+/* CARD */
+.card{
+  background:#163a8a;
+  padding:15px;
+  border-radius:10px;
+  margin-bottom:15px;
+}
 
-    .btn{
-      display:block;
-      width:100%;
-      padding:12px;
-      margin-top:10px;
-      border:none;
-      border-radius:6px;
-      font-size:15px;
-      font-weight:bold;
-      cursor:pointer;
-    }
-
-    .green{background:#22c55e;}
-    .blue{background:#3b82f6;}
-    .orange{background:#f59e0b;}
-    .red{background:#ef4444;}
-
-  </style>
+/* BUTTONS */
+.btn{
+  width:100%;
+  padding:14px;
+  margin-top:10px;
+  border:none;
+  border-radius:8px;
+  font-size:15px;
+  font-weight:bold;
+  cursor:pointer;
+}
+.green{background:#2ecc71;}
+.blue{background:#3498db;}
+.orange{background:#f39c12;}
+.red{background:#e74c3c;}
+.sky{background:#00c2ff;}
+.purple{background:#8e44ad;}
+.gray{background:#7f8c8d;}
+</style>
 </head>
 
 <body>
@@ -70,31 +74,58 @@
 
 <div class="container">
 
+  <!-- WELCOME -->
   <div class="card">
     <h3>Welcome 👋</h3>
     <p>You are logged in successfully.</p>
   </div>
 
+  <!-- WALLET -->
   <div class="card">
     <h3>Wallet Balance</h3>
-    <h2>₹ <span id="bal">0</span></h2>
+    <h2>₹ <span id="wallet">0</span></h2>
 
-    <button class="btn green" onclick="go('add-fund.html')">Add Fund</button>
-    <button class="btn blue" onclick="go('withdraw.html')">Withdraw</button>
-    <button class="btn orange" onclick="go('invest.html')">Invest</button>
+    <a href="add-fund.html"><button class="btn green">Add Fund</button></a>
+    <a href="withdraw.html"><button class="btn blue">Withdraw</button></a>
+    <a href="invest.html"><button class="btn orange">Invest</button></a>
+  </div>
+
+  <!-- HISTORY -->
+  <div class="card">
+    <h3>History</h3>
+
+    <a href="deposit-history.html">
+      <button class="btn sky">Deposit History</button>
+    </a>
+
+    <a href="withdraw-history.html">
+      <button class="btn purple">Withdrawal History</button>
+    </a>
+  </div>
+
+  <!-- SUPPORT -->
+  <div class="card">
+    <h3>Support</h3>
+    <a href="support.html">
+      <button class="btn gray">Contact Support</button>
+    </a>
+  </div>
+
+  <!-- LOGOUT -->
+  <div class="card">
     <button class="btn red" onclick="logout()">Logout</button>
   </div>
 
 </div>
 
 <script>
-function go(page){
-  window.location.href = page;
-}
+/* SHOW WALLET */
+document.getElementById("wallet").innerText =
+  localStorage.getItem("wallet") || 0;
 
+/* LOGOUT */
 function logout(){
-  localStorage.clear();
-  window.location.href = "index.html";
+  window.location.href="index.html";
 }
 </script>
 
