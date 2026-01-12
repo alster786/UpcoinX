@@ -1,61 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>UpcoinX Dashboard</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <title>UpcoinX Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:#0b1c3d;
-  color:white;
-}
+  <style>
+    body{
+      margin:0;
+      font-family:Arial, sans-serif;
+      background:#0b1c3d;
+      color:white;
+    }
 
-/* NAVBAR */
-.nav{
-  background:#122a7a;
-  padding:12px;
-  display:flex;
-  justify-content:space-around;
-  font-size:14px;
-}
-.nav a{
-  color:white;
-  text-decoration:none;
-  font-weight:bold;
-}
+    /* NAVBAR */
+    .nav{
+      background:#122a7a;
+      padding:12px;
+      display:flex;
+      justify-content:space-around;
+      font-size:14px;
+      font-weight:bold;
+    }
+    .nav a{
+      color:white;
+      text-decoration:none;
+    }
 
-/* CONTAINER */
-.container{
-  padding:15px;
-}
+    /* CONTAINER */
+    .container{
+      padding:15px;
+    }
 
-/* CARD */
-.card{
-  background:#122a7a;
-  padding:15px;
-  border-radius:8px;
-  margin-bottom:15px;
-}
+    /* CARD */
+    .card{
+      background:#142b6f;
+      padding:15px;
+      border-radius:8px;
+      margin-bottom:15px;
+    }
 
-/* BUTTONS */
-.btn{
-  width:100%;
-  padding:12px;
-  margin-top:10px;
-  border:none;
-  border-radius:5px;
-  font-weight:bold;
-  font-size:15px;
-}
-.green{background:#28a745;color:white;}
-.blue{background:#007bff;color:white;}
-.orange{background:#f39c12;color:white;}
-.sky{background:#17a2b8;color:white;}
-.red{background:#dc3545;color:white;}
-</style>
+    h3{
+      margin-top:0;
+    }
+
+    /* BUTTONS */
+    .btn{
+      width:100%;
+      padding:10px;
+      border:none;
+      border-radius:6px;
+      font-size:15px;
+      font-weight:bold;
+      margin-top:8px;
+      cursor:pointer;
+    }
+
+    .green{background:#28a745;color:white;}
+    .blue{background:#007bff;color:white;}
+    .orange{background:#fd7e14;color:white;}
+    .sky{background:#17a2b8;color:white;}
+    .red{background:#dc3545;color:white;}
+    .gray{background:#6c757d;color:white;}
+
+    a button{
+      text-decoration:none;
+    }
+
+    .footer{
+      text-align:center;
+      font-size:12px;
+      opacity:0.7;
+      margin-top:20px;
+    }
+  </style>
 </head>
 
 <body>
+
+  <!-- TOP NAV -->
+  <div class="nav">
+    <a href="dashboard.html">Home</a>
+    <a href="add-fund.html">Add Fund</a>
+    <a href="withdrawal.html">Withdraw</a>
+    <a href="invest.html">Invest</a>
+    <a href="support.html">Support</a>
+  </div>
+
+  <div class="container">
+
+    <!-- WELCOME -->
+    <div class="card">
+      <h3>Welcome 👋</h3>
+      <p>You are logged in successfully.</p>
+    </div>
+
+    <!-- WALLET -->
+    <div class="card">
+      <h3>Wallet Balance</h3>
+      <h2>₹ <span id="wallet">0</span></h2>
+
+      <a href="add-fund.html">
+        <button class="btn green">Add Fund</button>
+      </a>
+
+      <a href="withdrawal.html">
+        <button class="btn blue">Withdraw</button>
+      </a>
+
+      <a href="invest.html">
+        <button class="btn orange">Invest</button>
+      </a>
+    </div>
+
+    <!-- HISTORY -->
+    <div class="card">
+      <h3>History</h3>
+
+      <a href="deposit-history.html">
+        <button class="btn sky">Deposit History</button>
+      </a>
+
+      <a href="withdrawal-history.html">
+        <button class="btn red">Withdrawal History</button>
+      </a>
+    </div>
+
+    <!-- SUPPORT -->
+    <div class="card">
+      <h3>Help & Support</h3>
+      <a href="support.html">
+        <button class="btn gray">Contact Support</button>
+      </a>
+    </div>
+
+    <div class="footer">
+      © 2026 UpcoinX. All rights reserved.
+    </div>
+
+  </div>
+
+  <!-- JS : ZERO BALANCE ONLY -->
+  <script>
+    if(localStorage.getItem("wallet") === null){
+      localStorage.setItem("wallet","0");
+    }
+    document.getElementById("wallet").innerText =
+      localStorage.getItem("wallet");
+  </script>
+
+</body>
+</html>
