@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Withdraw - UpcoinX</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#0b1c3d;
+  color:white;
+}
+
+.nav{
+  background:#122a7a;
+  padding:12px;
+  display:flex;
+  justify-content:space-around;
+  font-weight:bold;
+}
+.nav a{
+  color:white;
+  text-decoration:none;
+}
+
+.container{
+  padding:15px;
+}
+
+.card{
+  background:#163a8a;
+  padding:15px;
+  border-radius:10px;
+  margin-bottom:15px;
+}
+
+input, select{
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  border-radius:6px;
+  border:none;
+}
+
+.btn{
+  width:100%;
+  padding:14px;
+  margin-top:15px;
+  border:none;
+  border-radius:8px;
+  font-size:15px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.green{background:#2ecc71;}
+.blue{background:#3498db;}
+.red{background:#e74c3c;}
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<div class="nav">
+  <a href="dashboard.html">Home</a>
+  <a href="add-fund.html">Add Fund</a>
+  <a href="withdraw.html">Withdraw</a>
+  <a href="invest.html">Invest</a>
+  <a href="support.html">Support</a>
+</div>
+
+<div class="container">
+
+<div class="card">
+  <h3>Withdraw Funds</h3>
+
+  <label>Withdrawal Method</label>
+  <select id="method" onchange="changeMethod()">
+    <option value="upi">UPI Withdrawal</option>
+    <option value="bank">Bank Withdrawal</option>
+  </select>
+
+  <label>Amount (₹)</label>
+  <input type="number" id="amount" placeholder="Minimum ₹500">
+
+  <!-- UPI -->
+  <div id="upiBox">
+    <label>UPI ID</label>
+    <input type="text" id="upi" placeholder="example@upi">
+  </div>
+
+  <!-- BANK -->
+  <div id="bankBox" style="display:none;">
+    <label>Account Number</label>
+    <input type="text" id="acc">
+
+    <label>IFSC Code</label>
+    <input type="text" id="ifsc">
+
+    <label>Mobile Number</label>
+    <input type="text" id="mobile">
+  </div>
+
+  <button class="btn green" onclick="withdraw()">Submit Withdrawal</button>
+</div>
+
+</div>
+
+<script>
+let wallet = Number(localStorage.getItem("wallet")) || 0;
+
+function changeMethod(){
+  let m = document.getElementById("method").value;
+  document.getElementById("upiBox").style.display = m==="upi"?"block":"none";
+  document.getElementById("bankBox").style.display = m==="bank"?"block":"none";
+}
+
+function withdraw(){
+  let amt = Number(document.getElementById("amount").value);
+  let method = document.getElementById("method").value;
+
+  if(amt < 500){
+    alert("Minimum withdrawal ₹500");
+    return;
+  }
+
+  if(wallet < amt){
+    alert("Insufficient wallet balance");
+    return;
+  }
+
+  if(method==="upi"){
+    let upi = document.getElementById("upi").value;
+    if(upi===""){
+      alert("Enter UPI ID");
+      return;
+    }
+  }
+
+  if(method==="bank"){
+    if(
+      document.getElementById("acc").value==="" ||
+      document.getElementById("ifsc").value==="" ||
+      document.getElementById("mobile").value===""
+    ){
+      alert("Fill all bank details");
+      return;
+    }
+  }
+
+  wallet -= amt;
+  localStorage.setItem("wallet", wallet);
+
+  let history = JSON.parse(localStorage.getItem("withdrawHistory")) || [];
+  history.push({
+    amount:amt,
+    method:method,
+    date:new Date().toLocaleString(),
+    status:"Pending"
+  });
+  localStorage.setItem("withdrawHistory", JSON.stringify(history));
+
+  alert("Withdrawal request submitted (Demo)");
+  window.location.href="dashboard.html";
+}
+</script>
+
+</body>
+</html>
