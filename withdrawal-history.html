@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Withdrawal History - UpcoinX</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#0b1c3d;
+  color:white;
+}
+
+/* NAV */
+.nav{
+  background:#122a7a;
+  padding:12px;
+  display:flex;
+  justify-content:space-around;
+}
+.nav a{
+  color:white;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+/* CONTAINER */
+.container{
+  padding:15px;
+}
+
+/* CARD */
+.card{
+  background:#122a7a;
+  padding:15px;
+  border-radius:8px;
+  margin-bottom:15px;
+}
+
+/* TABLE */
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:14px;
+}
+th,td{
+  border:1px solid #1e3a8a;
+  padding:8px;
+  text-align:center;
+}
+th{
+  background:#1e3a8a;
+}
+.empty{
+  text-align:center;
+  color:#ccc;
+  margin-top:20px;
+}
+
+/* BUTTON */
+.btn{
+  width:100%;
+  padding:12px;
+  background:#007bff;
+  color:white;
+  border:none;
+  border-radius:5px;
+  font-weight:bold;
+  margin-top:15px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<div class="nav">
+  <a href="dashboard.html">Home</a>
+  <a href="withdrawal.html">Withdraw</a>
+  <a href="withdrawal-history.html">History</a>
+</div>
+
+<div class="container">
+
+  <div class="card">
+    <h3>Withdrawal History</h3>
+
+    <table id="table" style="display:none;">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Amount (₹)</th>
+          <th>Method</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="history"></tbody>
+    </table>
+
+    <div id="empty" class="empty">No withdrawal history found</div>
+
+    <button class="btn" onclick="goBack()">Back to Dashboard</button>
+  </div>
+
+</div>
+
+<script>
+let history = JSON.parse(localStorage.getItem("withdrawHistory")) || [];
+
+let table = document.getElementById("table");
+let tbody = document.getElementById("history");
+let empty = document.getElementById("empty");
+
+if(history.length > 0){
+  table.style.display = "table";
+  empty.style.display = "none";
+
+  history.reverse().forEach(item=>{
+    let tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${item.date}</td>
+      <td>₹ ${item.amount}</td>
+      <td>${item.method}</td>
+      <td>${item.status}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function goBack(){
+  window.location.href = "dashboard.html";
+}
+</script>
+
+</body>
+</html>
