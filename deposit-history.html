@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Deposit History</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  font-family: Arial, sans-serif;
+  background:#0b1d3a;
+  color:#fff;
+  margin:0;
+}
+.header{
+  background:#0f2f63;
+  padding:12px;
+  text-align:center;
+  font-weight:bold;
+}
+.container{
+  padding:15px;
+}
+.card{
+  background:#123a73;
+  padding:12px;
+  border-radius:10px;
+  margin-bottom:12px;
+}
+.amount{
+  font-size:18px;
+  font-weight:bold;
+  color:#00ff99;
+}
+.status{
+  padding:4px 10px;
+  border-radius:20px;
+  font-size:12px;
+  display:inline-block;
+}
+.pending{ background:orange; color:#000; }
+.approved{ background:#00ff99; color:#000; }
+img{
+  width:100%;
+  max-height:200px;
+  object-fit:cover;
+  border-radius:8px;
+  margin-top:8px;
+}
+.back{
+  background:#ff4444;
+  padding:10px;
+  border-radius:8px;
+  text-align:center;
+  margin-top:15px;
+}
+a{ color:#fff; text-decoration:none; }
+</style>
+</head>
+
+<body>
+
+<div class="header">Deposit History</div>
+
+<div class="container" id="historyBox">
+  <!-- history here -->
+</div>
+
+<div class="container">
+  <div class="back">
+    <a href="dashboard.html">⬅ Back to Dashboard</a>
+  </div>
+</div>
+
+<script>
+let history = JSON.parse(localStorage.getItem("depositHistory")) || [];
+
+let box = document.getElementById("historyBox");
+
+if(history.length === 0){
+  box.innerHTML = "<p>No deposit history found.</p>";
+}else{
+  history.reverse().forEach(item=>{
+    box.innerHTML += `
+      <div class="card">
+        <div class="amount">₹ ${item.amount}</div>
+        <div>UTR: ${item.utr}</div>
+        <div>Date: ${item.date}</div>
+        <div class="status ${item.status === 'Approved' ? 'approved' : 'pending'}">
+          ${item.status}
+        </div>
+        ${item.screenshot ? `<img src="${item.screenshot}">` : ``}
+      </div>
+    `;
+  });
+}
+</script>
+
+</body>
+</html>
