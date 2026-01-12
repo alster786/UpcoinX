@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Support - UpcoinX</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:#0b1c3d;
+  color:white;
+}
+.nav{
+  background:#122a7a;
+  padding:12px;
+  text-align:center;
+  font-weight:bold;
+}
+.chat{
+  padding:10px;
+}
+.box{
+  background:#122a7a;
+  padding:10px;
+  border-radius:8px;
+  height:300px;
+  overflow-y:auto;
+}
+.user{
+  text-align:right;
+  margin:8px 0;
+}
+.user span{
+  background:#28a745;
+  padding:6px 10px;
+  border-radius:6px;
+  display:inline-block;
+}
+.bot span{
+  background:#007bff;
+  padding:6px 10px;
+  border-radius:6px;
+  display:inline-block;
+}
+.input{
+  display:flex;
+  margin-top:10px;
+}
+input{
+  flex:1;
+  padding:10px;
+  border:none;
+  border-radius:5px;
+}
+button{
+  padding:10px;
+  background:#28a745;
+  color:white;
+  border:none;
+  margin-left:5px;
+  border-radius:5px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="nav">AI Support - UpcoinX</div>
+
+<div class="chat">
+  <div class="box" id="chatBox">
+    <div class="bot"><span>👋 Hello! How can I help you?</span></div>
+  </div>
+
+  <div class="input">
+    <input type="text" id="msg" placeholder="Type your message...">
+    <button onclick="send()">Send</button>
+  </div>
+</div>
+
+<script>
+function send(){
+  let msg = document.getElementById("msg").value;
+  if(msg=="") return;
+
+  let box = document.getElementById("chatBox");
+
+  box.innerHTML += `<div class="user"><span>${msg}</span></div>`;
+  document.getElementById("msg").value = "";
+
+  setTimeout(()=>{
+    let reply = getReply(msg.toLowerCase());
+    box.innerHTML += `<div class="bot"><span>${reply}</span></div>`;
+    box.scrollTop = box.scrollHeight;
+  },800);
+}
+
+function getReply(text){
+  if(text.includes("deposit")) return "💰 Deposit will be credited within 5–10 minutes.";
+  if(text.includes("withdraw")) return "🏦 Withdrawal minimum ₹500. Status: Pending.";
+  if(text.includes("invest")) return "📈 Investment profit credited automatically.";
+  if(text.includes("support")) return "📞 Support available 24/7.";
+  return "🤖 Please wait, our team will respond shortly.";
+}
+</script>
+
+</body>
+</html>
