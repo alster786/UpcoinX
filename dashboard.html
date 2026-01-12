@@ -3,120 +3,101 @@
 <head>
 <meta charset="UTF-8">
 <title>UpcoinX Dashboard</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:#0b1c3d;
-  color:white;
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#0b1c2d;
+    color:#ffffff;
 }
-
-/* NAVBAR */
-.nav{
-  background:#122a7a;
-  padding:12px;
-  display:flex;
-  justify-content:space-around;
-  font-size:14px;
-}
-.nav a{
-  color:white;
-  text-decoration:none;
-  font-weight:bold;
-}
-
-/* CONTAINER */
-.container{
-  padding:15px;
-}
-
-/* CARD */
+.container{padding:15px}
 .card{
-  background:#122a7a;
-  padding:15px;
-  border-radius:8px;
-  margin-bottom:15px;
+    background:#122a44;
+    padding:15px;
+    border-radius:10px;
+    margin-bottom:15px;
 }
-
-/* BUTTONS */
+h2,h3{margin:0 0 10px}
+table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:14px;
+}
+th,td{
+    padding:8px;
+    border-bottom:1px solid #2e4c6d;
+    text-align:left;
+}
+.amount{font-weight:bold}
+.green{color:#4caf50}
+.red{color:#ff5252}
 .btn{
-  width:100%;
-  padding:12px;
-  margin-top:10px;
-  border:none;
-  border-radius:5px;
-  font-weight:bold;
-  font-size:15px;
+    padding:10px 14px;
+    border:none;
+    border-radius:6px;
+    margin-right:8px;
+    cursor:pointer;
 }
-.green{background:#28a745;color:white;}
-.blue{background:#007bff;color:white;}
-.orange{background:#f39c12;color:white;}
-.sky{background:#17a2b8;color:white;}
-.red{background:#dc3545;color:white;}
+.btn-blue{background:#2196f3;color:#fff}
+.btn-green{background:#4caf50;color:#fff}
+.btn-orange{background:#ff9800;color:#fff}
 </style>
 </head>
 
 <body>
-
-<!-- TOP MENU -->
-<div class="nav">
-  <a href="dashboard.html">Home</a>
-  <a href="add-fund.html">Add Fund</a>
-  <a href="withdrawal.html">Withdraw</a>
-  <a href="invest.html">Invest</a>
-</div>
-
 <div class="container">
 
-  <!-- WELCOME -->
-  <div class="card">
-    <h3>Welcome 👋</h3>
-    <p>You are logged in successfully.</p>
-  </div>
-
-  <!-- WALLET -->
-  <div class="card">
+<!-- WALLET -->
+<div class="card">
     <h3>Wallet Balance</h3>
-    <h2>₹ <span id="wallet">0</span></h2>
-
-    <button class="btn green" onclick="go('add-fund.html')">Add Fund</button>
-    <button class="btn blue" onclick="go('withdrawal.html')">Withdraw</button>
-    <button class="btn orange" onclick="go('invest.html')">Invest</button>
-  </div>
-
-  <!-- HISTORY -->
-  <div class="card">
-    <h3>History</h3>
-    <button class="btn sky" onclick="go('deposit-history.html')">Deposit History</button>
-    <button class="btn sky" onclick="go('withdrawal-history.html')">Withdrawal History</button>
-  </div>
-
-  <!-- LOGOUT -->
-  <button class="btn red" onclick="logout()">Logout</button>
-
+    <h2>₹ 23,000</h2>
+    <p>Total Invested: ₹10,000</p>
+    <button class="btn btn-green">Add Fund</button>
+    <button class="btn btn-blue">Withdraw</button>
+    <button class="btn btn-orange">Invest</button>
 </div>
 
-<script>
-/* SHOW WALLET */
-let wallet = localStorage.getItem("wallet");
-if(wallet === null){
-  localStorage.setItem("wallet",0);
-  wallet = 0;
-}
-document.getElementById("wallet").innerText = wallet;
+<!-- DEPOSIT HISTORY -->
+<div class="card">
+    <h3>Deposit History</h3>
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>Status</th>
+        </tr>
+        <tr><td>04 Nov 2025</td><td class="amount green">₹500</td><td>Success</td></tr>
+        <tr><td>12 Nov 2025</td><td class="amount green">₹1,000</td><td>Success</td></tr>
+        <tr><td>25 Nov 2025</td><td class="amount green">₹2,000</td><td>Success</td></tr>
+        <tr><td>05 Dec 2025</td><td class="amount green">₹1,500</td><td>Success</td></tr>
+        <tr><td>18 Dec 2025</td><td class="amount green">₹3,000</td><td>Success</td></tr>
+        <tr><td>28 Dec 2025</td><td class="amount green">₹2,500</td><td>Success</td></tr>
+        <tr><td>05 Jan 2026</td><td class="amount green">₹4,000</td><td>Success</td></tr>
+        <tr><td>12 Jan 2026</td><td class="amount green">₹5,000</td><td>Success</td></tr>
+    </table>
+</div>
 
-/* FUNCTIONS */
-function go(page){
-  window.location.href = page;
-}
+<!-- WITHDRAWAL HISTORY -->
+<div class="card">
+    <h3>Withdrawal History</h3>
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>Status</th>
+        </tr>
+        <tr><td>10 Nov 2025</td><td class="amount red">₹500</td><td>Completed</td></tr>
+        <tr><td>22 Nov 2025</td><td class="amount red">₹1,500</td><td>Completed</td></tr>
+        <tr><td>02 Dec 2025</td><td class="amount red">₹2,000</td><td>Completed</td></tr>
+        <tr><td>12 Dec 2025</td><td class="amount red">₹3,000</td><td>Completed</td></tr>
+        <tr><td>20 Dec 2025</td><td class="amount red">₹2,500</td><td>Completed</td></tr>
+        <tr><td>30 Dec 2025</td><td class="amount red">₹4,000</td><td>Completed</td></tr>
+        <tr><td>05 Jan 2026</td><td class="amount red">₹1,000</td><td>Completed</td></tr>
+        <tr><td>12 Jan 2026</td><td class="amount red">₹5,000</td><td>Completed</td></tr>
+    </table>
+</div>
 
-function logout(){
-  localStorage.clear();
-  window.location.href = "index.html";
-}
-</script>
-
+</div>
 </body>
 </html>
