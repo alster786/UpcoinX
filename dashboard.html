@@ -13,18 +13,18 @@ body{
   color:white;
 }
 
-/* TOP NAV */
+/* NAVBAR */
 .nav{
   background:#122a7a;
   padding:12px;
   display:flex;
   justify-content:space-around;
   font-size:14px;
-  font-weight:bold;
 }
 .nav a{
   color:white;
   text-decoration:none;
+  font-weight:bold;
 }
 
 /* CONTAINER */
@@ -34,30 +34,27 @@ body{
 
 /* CARD */
 .card{
-  background:#163a8a;
+  background:#122a7a;
   padding:15px;
-  border-radius:10px;
+  border-radius:8px;
   margin-bottom:15px;
 }
 
 /* BUTTONS */
 .btn{
   width:100%;
-  padding:14px;
+  padding:12px;
   margin-top:10px;
   border:none;
-  border-radius:8px;
-  font-size:15px;
+  border-radius:5px;
   font-weight:bold;
-  cursor:pointer;
+  font-size:15px;
 }
-.green{background:#2ecc71;}
-.blue{background:#3498db;}
-.orange{background:#f39c12;}
-.red{background:#e74c3c;}
-.sky{background:#00c2ff;}
-.purple{background:#8e44ad;}
-.gray{background:#7f8c8d;}
+.green{background:#28a745;color:white;}
+.blue{background:#007bff;color:white;}
+.orange{background:#f39c12;color:white;}
+.sky{background:#17a2b8;color:white;}
+.red{background:#dc3545;color:white;}
 </style>
 </head>
 
@@ -67,9 +64,8 @@ body{
 <div class="nav">
   <a href="dashboard.html">Home</a>
   <a href="add-fund.html">Add Fund</a>
-  <a href="withdraw.html">Withdraw</a>
+  <a href="withdrawal.html">Withdraw</a>
   <a href="invest.html">Invest</a>
-  <a href="support.html">Support</a>
 </div>
 
 <div class="container">
@@ -85,47 +81,40 @@ body{
     <h3>Wallet Balance</h3>
     <h2>₹ <span id="wallet">0</span></h2>
 
-    <a href="add-fund.html"><button class="btn green">Add Fund</button></a>
-    <a href="withdraw.html"><button class="btn blue">Withdraw</button></a>
-    <a href="invest.html"><button class="btn orange">Invest</button></a>
+    <button class="btn green" onclick="go('add-fund.html')">Add Fund</button>
+    <button class="btn blue" onclick="go('withdrawal.html')">Withdraw</button>
+    <button class="btn orange" onclick="go('invest.html')">Invest</button>
   </div>
 
   <!-- HISTORY -->
   <div class="card">
     <h3>History</h3>
-
-    <a href="deposit-history.html">
-      <button class="btn sky">Deposit History</button>
-    </a>
-
-    <a href="withdraw-history.html">
-      <button class="btn purple">Withdrawal History</button>
-    </a>
-  </div>
-
-  <!-- SUPPORT -->
-  <div class="card">
-    <h3>Support</h3>
-    <a href="support.html">
-      <button class="btn gray">Contact Support</button>
-    </a>
+    <button class="btn sky" onclick="go('deposit-history.html')">Deposit History</button>
+    <button class="btn sky" onclick="go('withdrawal-history.html')">Withdrawal History</button>
   </div>
 
   <!-- LOGOUT -->
-  <div class="card">
-    <button class="btn red" onclick="logout()">Logout</button>
-  </div>
+  <button class="btn red" onclick="logout()">Logout</button>
 
 </div>
 
 <script>
 /* SHOW WALLET */
-document.getElementById("wallet").innerText =
-  localStorage.getItem("wallet") || 0;
+let wallet = localStorage.getItem("wallet");
+if(wallet === null){
+  localStorage.setItem("wallet",0);
+  wallet = 0;
+}
+document.getElementById("wallet").innerText = wallet;
 
-/* LOGOUT */
+/* FUNCTIONS */
+function go(page){
+  window.location.href = page;
+}
+
 function logout(){
-  window.location.href="index.html";
+  localStorage.clear();
+  window.location.href = "index.html";
 }
 </script>
 
